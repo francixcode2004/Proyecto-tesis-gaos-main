@@ -55,7 +55,11 @@ async def handle_connection(websocket):
                     message_data = json.loads(message)
                     player_option = message_data["option_player"]
                     response_time = time.time() - question_start_time  # Calcular tiempo de respuesta
-                    player_times[websocket] = response_time  # Guardar tiempo de respuesta
+                    #1player_times[websocket] = response_time  # Guardar tiempo de respuesta
+                    if websocket not in player_times:
+                        player_times[websocket] = 0
+                    player_times[websocket] += response_time
+
                     print(f"{connected_players[websocket]['name']} respondió en {response_time:.2f} segundos.")
                 except json.JSONDecodeError:
                     print(f"Error en el formato del mensaje recibido de {connected_players[websocket]['name']}")
